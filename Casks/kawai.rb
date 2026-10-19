@@ -19,7 +19,7 @@ cask "kawai" do
 
   app "kawai.app"
 
-  preflight do
+  preflight_steps do
     # Clear quarantine flag on existing app before upgrading
     quarantine_file = "/Applications/kawai.app"
     if File.exist?(quarantine_file)
@@ -27,7 +27,7 @@ cask "kawai" do
     end
   end
 
-  postflight do
+  postflight_steps do
     # Clear quarantine on the freshly installed bundle (recursive: nested
     # attributes inside the .app must go too, or Gatekeeper still warns).
     quarantine_file = "/Applications/kawai.app"
