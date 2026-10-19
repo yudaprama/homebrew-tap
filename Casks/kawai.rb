@@ -19,8 +19,17 @@ cask "kawai" do
 
   app "kawai.app"
 
-  preflight_steps do
-    # Clear quarantine flag for existing app before upgrading
+  preflight do
+    # Clear quarantine flag on existing app before upgrading
+    quarantine_file = "/Applications/kawai.app"
+    if File.exist?(quarantine_file)
+      SystemCommand.run("xattr", args: ["-dr", "com.apple.quarantine", quarantine_file])
+    end
+  end
+
+  postflight do
+    # Clear quarantine on the freshly installed bundle (recursive: nested
+    # attributes inside the .app must go too, or Gatekeeper still warns).
     quarantine_file = "/Applications/kawai.app"
     if File.exist?(quarantine_file)
       SystemCommand.run("xattr", args: ["-dr", "com.apple.quarantine", quarantine_file])
