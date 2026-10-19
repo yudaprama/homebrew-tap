@@ -19,7 +19,7 @@ cask "kawai" do
 
   app "kawai.app"
 
-  post_install do
+  postflight do
     # Clear quarantine flag so macOS doesn't warn about unverified developer
     quarantine_file = "/Applications/kawai.app"
     if File.exist?(quarantine_file)
