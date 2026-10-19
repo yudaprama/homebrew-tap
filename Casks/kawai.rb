@@ -19,11 +19,11 @@ cask "kawai" do
 
   app "kawai.app"
 
-  preflight do
+  preflight_steps do
     # Clear quarantine flag for existing app before upgrading
     quarantine_file = "/Applications/kawai.app"
     if File.exist?(quarantine_file)
-      SystemCommand.run("xattr", args: ["-d", "com.apple.quarantine", quarantine_file])
+      SystemCommand.run("xattr", args: ["-dr", "com.apple.quarantine", quarantine_file])
     end
   end
 end
