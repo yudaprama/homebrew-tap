@@ -18,4 +18,12 @@ cask "kawai" do
   depends_on arch: :arm64
 
   app "kawai.app"
+
+  post_install do
+    # Clear quarantine flag so macOS doesn't warn about unverified developer
+    quarantine_file = "/Applications/kawai.app"
+    if File.exist?(quarantine_file)
+      SystemCommand.run("xattr", args: ["-d", "com.apple.quarantine", quarantine_file])
+    end
+  end
 end
